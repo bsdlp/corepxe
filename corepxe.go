@@ -17,5 +17,5 @@ func main() {
 			return r, nil
 		})
 
-	log.Fatal(http.listenAndServe(":8080", proxy))
+	log.Fatal(http.ListenAndServe(":8080", proxy))
 }
