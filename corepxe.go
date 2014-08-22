@@ -9,13 +9,11 @@ import (
 
 func main() {
 	proxy := goproxy.NewProxyHttpServer()
-	proxy.Verbose = true
-
-	proxy.OnRequest().DoFunc(
-		func(r *http.Request, _ *goproxy.ProxyCtx) (*http.Request, *http.Response) {
+	proxy.OnResponse().DoFunc(
+		func(r *http.Response, ctx *goproxy.ProxyCtx) *http.Response {
 			r.Header.Set("X-COREPXE", "corepxe")
-			return r, nil
+			return r
 		})
-
+	proxy.Verbose = true
 	log.Fatal(http.ListenAndServe(":8080", proxy))
 }
