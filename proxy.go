@@ -7,7 +7,7 @@ import (
 	"github.com/elazarl/goproxy"
 )
 
-func main() {
+func proxySetup() {
 	proxy := goproxy.NewProxyHttpServer()
 	proxy.OnRequest(UrlIs("public.update.core-os.net/v1/update/")).HandleConnect(goproxy.AlwaysMitm)
 	proxy.OnResponse().DoFunc(
