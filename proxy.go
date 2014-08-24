@@ -9,7 +9,7 @@ import (
 
 func main() {
 	proxy := goproxy.NewProxyHttpServer()
-	proxy.OnRequest().HandleConnect(goproxy.AlwaysMitm)
+	proxy.OnRequest(UrlIs("public.update.core-os.net/v1/update/")).HandleConnect(goproxy.AlwaysMitm)
 	proxy.OnResponse().DoFunc(
 		func(r *http.Response, ctx *goproxy.ProxyCtx) *http.Response {
 			r.Header.Set("X-COREPXE", "corepxe")
