@@ -7,7 +7,7 @@ import (
 	"github.com/elazarl/goproxy"
 )
 
-func reponseHandler(r *http.Response, ctx *goproxy.ProxyCtx, corpxeChan chan []int) *http.Response {
+func cpRespHandler(r *http.Response, ctx *goproxy.ProxyCtx, corpxeChan chan []int) *http.Response {
 	r.Header.Set("X-COREPXE", "corepxe")
 	return r
 }
