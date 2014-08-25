@@ -7,15 +7,15 @@ import (
 	"github.com/elazarl/goproxy"
 )
 
-func cpRespHandler(r *http.Response, ctx *goproxy.ProxyCtx, corpxeChan chan []int) *http.Response {
+func cpRespHandler(r *http.Response, ctx *goproxy.ProxyCtx) *http.Response {
 	r.Header.Set("X-COREPXE", "corepxe")
 	return r
 }
 
 func proxySetup(corpxeChan chan []int) {
 	proxy := goproxy.NewProxyHttpServer()
-	proxy.OnRequest(UrlIs("public.update.core-os.net/v1/update/")).HandleConnect(goproxy.AlwaysMitm)
-	proxy.OnResponse().DoFunc(reponseHandler(corpxeChan))
+	proxy.OnRequest(goproxy.UrlIs("public.update.core-os.net/v1/update/")).HandleConnect(goproxy.AlwaysMitm)
+	proxy.OnResponse().DoFunc(cpRespHandler())
 	proxy.Verbose = true
 	log.Fatal(http.ListenAndServe(":8080", proxy))
 }
