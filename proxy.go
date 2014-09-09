@@ -9,9 +9,10 @@ import (
 
 func proxySetup(corepxeChan chan int) {
 	proxy := goproxy.NewProxyHttpServer()
-	proxy.OnRequest(goproxy.UrlIs("public.update.core-os.net/v1/update/")).HandleConnect(goproxy.AlwaysMitm).DoFunc(func(req *http.Request, ctx *goproxy.ProxyCtx) *http.Request {
+	proxy.OnRequest(goproxy.UrlIs("public.update.core-os.net/v1/update/")).HandleConnect(goproxy.AlwaysMitm)
+	proxy.OnRequest(goproxy.UrlIs("public.update.core-os.net/v1/update/")).DoFunc(func(req *http.Request, ctx *goproxy.ProxyCtx) (*http.Request, *http.Response) {
 		corepxeChan <- 0
-		return req
+		return req, nil
 	})
 	proxy.OnResponse().DoFunc(func(resp *http.Response, ctx *goproxy.ProxyCtx) *http.Response {
 		resp.Header.Set("X-COREPXE", "corepxe")
