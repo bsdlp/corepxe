@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/elazarl/goproxy"
+	"github.com/fsouza/go-dockerclient"
 )
 
 func proxySetup(corepxeChan *chan int) {
@@ -23,6 +24,13 @@ func proxySetup(corepxeChan *chan int) {
 }
 
 func main() {
+	endpoint := "unix:///var/run/docker.sock"
+	client, err := docker.newClient(endpoint)
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	corepxeChan := make(chan int)
-	proxySetup(&corepxeChan)
+
+	go proxySetup(&corepxeChan)
 }
