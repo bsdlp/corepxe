@@ -57,3 +57,45 @@ appropriate directory to be served by
 If there isn't an update required (`<updatecheck
 status="noupdate"></updatecheck>`) then it just passes along that response to
 the host that requested a check.
+
+## Notes
+
+```
+Example request:
+
+<?xml version="1.0" encoding="UTF-8"?>
+<request protocol="3.0" version="CoreOSUpdateEngine-0.1.0.0"
+updaterversion="CoreOSUpdateEngine-0.1.0.0" installsource="scheduler"
+ismachine="1">
+<os version="Chateau" platform="CoreOS" sp="289.0.0"></os>
+<app appid="{e96281a6-d1af-4bde-9a0a-97b76e56dc57}" oem="diskless"
+version="289.0.0" track="stable" bootid="{fake-client-018}"
+machineid="fake-machine-018" lang="en-US" hardware_class="" delta_okay="false"
+>
+<event eventtype="3" eventresult="2" previousversion=""></event>
+</app>
+</request>
+
+
+Example response:
+
+<?xml version="1.0" encoding="UTF-8"?>
+<response protocol="3.0" server="update.core-os.net">
+ <daystart elapsed_seconds="0"></daystart>
+ <app appid="e96281a6-d1af-4bde-9a0a-97b76e56dc57" status="ok">
+  <updatecheck status="ok">
+   <urls>
+    <url codebase="https://commondatastorage.googleapis.com/update-storage.core-os.net/amd64-usr/410.0.0/"></url>
+   </urls>
+   <manifest version="410.0.0">
+    <packages>
+     <package hash="fCMDlzLpTyNnV8++4+kDoqeEuvA=" name="update.gz" size="111882133" required="false"></package>
+    </packages>
+    <actions>
+     <action event="postinstall" ChromeOSVersion="" sha256="MclaAJ7f63k0cHtYs5Wv5dqGuveyXDfbYwDw7X5SaoA=" needsadmin="false" IsDelta="false" DisablePayloadBackoff="true"></action>
+    </actions>
+   </manifest>
+  </updatecheck>
+ </app>
+</response>
+```
