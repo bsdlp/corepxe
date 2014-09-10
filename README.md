@@ -58,6 +58,10 @@ If there isn't an update required (`<updatecheck
 status="noupdate"></updatecheck>`) then it just passes along that response to
 the host that requested a check.
 
+Since there isn't (as far as I know) any documentation about how
+`update_engine` works behind the scenes, here's a [link to the
+source](https://github.com/coreos/update_engine).
+
 ## Notes
 
 ```
