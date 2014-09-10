@@ -1,4 +1,4 @@
-package corepxe
+package main
 
 import (
 	"log"
