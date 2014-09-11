@@ -103,3 +103,10 @@ Example response:
  </app>
 </response>
 ```
+
+Glossary:
+* `app.appid`: appid, essentially the id assigned to the release channel
+* `url.codebase`: base url for the binary
+* `package.hash`: base64 encoded SHA-1 hash of the binary
+* `package.name`: filename of the binary. ''.join(url.codebase, package.name)
+  for the download url
