@@ -68,7 +68,7 @@ func main() {
 		OmahaResponse := ParseResponse(resp)
 
 		for i := range OmahaResponse.Apps {
-			if OmahaResponse.Apps[i].Status == "ok" {
+			if OmahaResponse.Apps[i].UpdateCheck.Status == "ok" {
 				AppsWithUpdates = append(AppsWithUpdates, OmahaResponse.Apps[i])
 			}
 		}
