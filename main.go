@@ -48,11 +48,16 @@ func ParseResponse(res *http.Response) omaha.Response {
 	return OmahaResponse
 }
 
+func PackageToPXE(pkg omaha.Package, urlbase string, c chan int) {
+}
+
 func main() {
 	var OriginalRequest http.Request
-	var AppsWithUpdates []omaha.App
-	endpoint := "unix:///var/run/docker.sock"
-	client, err := docker.NewClient(endpoint)
+
+	c := make(chan int)
+
+	dockerSocket := "unix:///var/run/docker.sock"
+	client, err := docker.NewClient(dockerSocket)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -69,9 +74,12 @@ func main() {
 
 		for i := range OmahaResponse.Apps {
 			if OmahaResponse.Apps[i].UpdateCheck.Status == "ok" {
-				AppsWithUpdates = append(AppsWithUpdates, OmahaResponse.Apps[i])
+				for pkg := range packages {
+					go PackageToPXE(pkg, OmahaReseponse.Apps[i].UpdateCheck.Urls[0], c)
+				}
 			}
 		}
+
 		goproxy.NewResponse(OriginalRequest, goproxy.ContentTypeHtml, http.StatusOK, CorePXEResponse)
 
 		resp.Header.Set("X-COREPXE", "corepxe")
@@ -79,5 +87,4 @@ func main() {
 	})
 	proxy.Verbose = true
 	log.Fatal(http.ListenAndServe(":8080", proxy))
-
 }
