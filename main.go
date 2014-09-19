@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"log"
 	"net/http"
+	"strings"
 
 	"github.com/coreos/go-omaha/omaha"
 	"github.com/elazarl/goproxy"
@@ -49,6 +50,7 @@ func ParseResponse(res *http.Response) omaha.Response {
 }
 
 func PackageToPXE(pkg omaha.Package, urlbase string, c chan int) {
+	pkgURL := strings.Join(urlbase, pkg.Name)
 }
 
 func main() {
